@@ -11,10 +11,12 @@ public class Card : MonoBehaviour
     [SerializeField] private Sprite backSprite;
 
     private bool _isFlipped;
+    private bool _isFlipping;
     
     void Start()
     {
         _isFlipped = false;
+        _isFlipping = false;
     }
 
     void Update()
@@ -24,6 +26,8 @@ public class Card : MonoBehaviour
 
     public void FlipCard()
     {
+        _isFlipping = true;
+        
         Vector3 originalScale = transform.localScale;
         Vector3 targetScale = new Vector3(0f, originalScale.y, originalScale.z);
 
@@ -40,14 +44,21 @@ public class Card : MonoBehaviour
                 cardRenderer.sprite = backSprite;
             }
 
-            transform.DOScale(originalScale, 0.2f);
+            transform.DOScale(originalScale, 0.2f).OnComplete(() =>
+            {
+                _isFlipping = false;
+            });
         });
 
+        
     }
     
     void OnMouseDown()
     {
-        FlipCard();    
+        if (!_isFlipping)
+        {
+            FlipCard();    
+        }
     }
     
 }
