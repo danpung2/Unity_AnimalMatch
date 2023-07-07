@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     private List<Card> _allCards;
     private Card _flippedCard;
+    private bool _isFlipping = false;
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
     }
 
@@ -26,11 +27,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FlipAllCardsRoutine()
     {
+        _isFlipping = true;
+        
         yield return new WaitForSeconds(0.5f);
         FlipAllCards();
         yield return new WaitForSeconds(3f);
         FlipAllCards();
         yield return new WaitForSeconds(0.5f);
+        
+        _isFlipping = false;
     }
 
     void FlipAllCards()
@@ -43,6 +48,11 @@ public class GameManager : MonoBehaviour
 
     public void CardClicked(Card card)
     {
+        if (_isFlipping)
+        {
+            return;
+        }
+        
         card.FlipCard();
 
         if (_flippedCard == null)
