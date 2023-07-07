@@ -13,6 +13,12 @@ public class Card : MonoBehaviour
     private bool _isFlipped;
     private bool _isFlipping;
 
+    public int cardId;
+    
+    public void SetCardId(int id)
+    {
+        this.cardId = id;
+    }
     public void SetAnimalSprite(Sprite sprite)
     {
         this.animalSprite = sprite;

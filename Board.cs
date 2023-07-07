@@ -7,9 +7,21 @@ public class Board : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Sprite[] cardSprites;
 
+    private List<int> cardIdList = new List<int>();
+
     void Start()
     {
+        GenerateCardId();
         InitBoard();
+    }
+
+    void GenerateCardId()
+    {
+        for (int i = 0; i < cardSprites.Length; i++)
+        {
+            cardIdList.Add(i);
+            cardIdList.Add(i);
+        }
     }
 
     void InitBoard()
@@ -33,12 +45,11 @@ public class Board : MonoBehaviour
                 GameObject cardObject = Instantiate(cardPrefab, pos, Quaternion.identity);
                 
                 Card card = cardObject.GetComponent<Card>();
-                card.SetAnimalSprite(cardSprites[cardIndex++]);
+                int cardId = cardIdList[cardIndex++];
+                
+                card.SetCardId(cardIdList[cardId]);
+                card.SetAnimalSprite(cardSprites[cardId]);
 
-                if (cardIndex >= cardSprites.Length)
-                {
-                    return;
-                }
             }
         }
     }
