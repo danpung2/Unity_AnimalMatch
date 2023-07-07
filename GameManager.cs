@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     private bool _isFlipping = false;
 
     [SerializeField] private Slider timeoutSlider;
+    [SerializeField] private TextMeshProUGUI timeoutText;
     [SerializeField] private float timeLimit = 60f;
     private float currentTime;
     private void Awake()
@@ -28,8 +30,14 @@ public class GameManager : MonoBehaviour
         _allCards = board.GetCards();
 
         currentTime = timeLimit;
+        SetCurrentTimeText();
         StartCoroutine(nameof(FlipAllCardsRoutine));
-        
+    }
+
+    void SetCurrentTimeText()
+    {
+        int timeSec = Mathf.CeilToInt(currentTime);
+        timeoutText.SetText(timeSec.ToString());
     }
 
     IEnumerator FlipAllCardsRoutine()
@@ -53,6 +61,7 @@ public class GameManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             timeoutSlider.value = currentTime / timeLimit;
+            SetCurrentTimeText();
             yield return null;
         }
 
