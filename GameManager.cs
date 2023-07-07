@@ -69,7 +69,8 @@ public class GameManager : MonoBehaviour
     {
         if (targetCard.cardId == flippedCard.cardId)
         {
-            
+            targetCard.SetMatched();
+            flippedCard.SetMatched();
         }
         else
         {

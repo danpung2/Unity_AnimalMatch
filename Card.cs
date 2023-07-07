@@ -12,9 +12,14 @@ public class Card : MonoBehaviour
 
     private bool _isFlipped;
     private bool _isFlipping;
+    private bool _isMatched = false;
 
     public int cardId;
     
+    public void SetMatched()
+    {
+        _isMatched = true;
+    }
     public void SetCardId(int id)
     {
         this.cardId = id;
@@ -55,7 +60,7 @@ public class Card : MonoBehaviour
     
     void OnMouseDown()
     {
-        if (!_isFlipping)
+        if (!_isFlipping && !_isMatched)
         {
             GameManager.Instance.CardClicked(this);
         }
