@@ -60,7 +60,7 @@ public class Card : MonoBehaviour
     
     void OnMouseDown()
     {
-        if (!_isFlipping && !_isMatched)
+        if (!_isFlipping && !_isMatched && !_isFlipped)
         {
             GameManager.Instance.CardClicked(this);
         }

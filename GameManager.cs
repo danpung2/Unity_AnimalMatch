@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CheckMatchRoutine(Card targetCard, Card flippedCard)
     {
+        _isFlipping = true;
+        
         if (targetCard.cardId == flippedCard.cardId)
         {
             targetCard.SetMatched();
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
         }
         
+        _isFlipping = false;
         _flippedCard = null;
     }
 }
