@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class GameManager : MonoBehaviour
     private List<Card> _allCards;
     private Card _flippedCard;
     private bool _isFlipping = false;
+
+    [SerializeField] private Slider timeoutSlider;
+    [SerializeField] private float timeLimit = 60f;
+    private float currentTime;
     private void Awake()
     {
         if (Instance == null)
@@ -22,7 +27,9 @@ public class GameManager : MonoBehaviour
         Board board = FindObjectOfType<Board>();
         _allCards = board.GetCards();
 
+        currentTime = timeLimit;
         StartCoroutine(nameof(FlipAllCardsRoutine));
+        
     }
 
     IEnumerator FlipAllCardsRoutine()
@@ -36,6 +43,20 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         _isFlipping = false;
+
+        yield return StartCoroutine(nameof(CountDownTimerRoutine));
+    }
+
+    IEnumerator CountDownTimerRoutine()
+    {
+        while (currentTime > 0)
+        {
+            currentTime -= Time.deltaTime;
+            timeoutSlider.value = currentTime / timeLimit;
+            yield return null;
+        }
+
+        GameOver(false);
     }
 
     void FlipAllCards()
@@ -86,5 +107,13 @@ public class GameManager : MonoBehaviour
         
         _isFlipping = false;
         _flippedCard = null;
+    }
+
+    void GameOver(bool success)
+    {
+        if (success)
+        {
+            
+        }
     }
 }
