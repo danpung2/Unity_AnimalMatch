@@ -7,8 +7,8 @@ public class Board : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Sprite[] cardSprites;
 
-    private List<int> _cardIdList = new List<int>();
-
+    private readonly List<int> _cardIdList = new List<int>();
+    private List<Card> _cardList = new List<Card>();
     void Start()
     {
         GenerateCardId();
@@ -57,11 +57,15 @@ public class Board : MonoBehaviour
                 
                 Card card = cardObject.GetComponent<Card>();
                 int cardId = _cardIdList[cardIndex++];
-                
                 card.SetCardId(_cardIdList[cardId]);
                 card.SetAnimalSprite(cardSprites[cardId]);
-
+                _cardList.Add(card);
             }
         }
+    }
+
+    public List<Card> GetCards()
+    {
+        return _cardList;
     }
 }
