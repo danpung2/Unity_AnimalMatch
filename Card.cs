@@ -57,7 +57,7 @@ public class Card : MonoBehaviour
     {
         if (!_isFlipping)
         {
-            FlipCard();    
+            GameManager.instance.CardClicked(this);
         }
     }
     

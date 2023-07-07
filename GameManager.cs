@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     private List<Card> _allCards;
-    
+    private Card _flippedCard;
     private void Awake()
     {
         if (instance == null)
@@ -41,4 +41,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CardClicked(Card card)
+    {
+        card.FlipCard();
+
+        if (_flippedCard == null)
+        {
+            _flippedCard = card;
+        }
+        else
+        {
+            StartCoroutine(CheckMatchRoutine(card, _flippedCard));
+        }
+    }
+
+    IEnumerator CheckMatchRoutine(Card targetCard, Card flippedCard)
+    {
+        if (targetCard.cardId == flippedCard.cardId)
+        {
+            
+        }
+        else
+        {
+            yield return new WaitForSeconds(1f);
+            
+            targetCard.FlipCard();
+            flippedCard.FlipCard();
+            
+            yield return new WaitForSeconds(0.4f);
+        }
+        
+        _flippedCard = null;
+    }
 }
