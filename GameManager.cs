@@ -14,8 +14,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Slider timeoutSlider;
     [SerializeField] private TextMeshProUGUI timeoutText;
+    [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private GameObject gameOverPanel;
+    private bool _isGameOver = false;
+    
     [SerializeField] private float timeLimit = 60f;
+    
     private float currentTime;
+    private int totalMatches = 10;
+    private int matchesFound = 0;
     private void Awake()
     {
         if (Instance == null)
@@ -78,7 +85,7 @@ public class GameManager : MonoBehaviour
 
     public void CardClicked(Card card)
     {
-        if (_isFlipping)
+        if (_isFlipping && _isGameOver)
         {
             return;
         }
@@ -103,6 +110,12 @@ public class GameManager : MonoBehaviour
         {
             targetCard.SetMatched();
             flippedCard.SetMatched();
+            matchesFound++;
+
+            if (matchesFound == totalMatches)
+            {
+                GameOver(true);
+            }
         }
         else
         {
@@ -120,9 +133,27 @@ public class GameManager : MonoBehaviour
 
     void GameOver(bool success)
     {
-        if (success)
+        if (!_isGameOver)
         {
+            _isGameOver = true;
             
+            StopCoroutine(nameof(CountDownTimerRoutine));
+        
+            if (success)
+            {
+                gameOverText.SetText("Clear!");
+            }
+            else
+            {
+                gameOverText.SetText("GAME OVER");
+            }
+        
+            Invoke(nameof(ShowGameOverPanel), 2f);
         }
+    }
+
+    void ShowGameOverPanel()
+    {
+        gameOverPanel.SetActive(true);
     }
 }
