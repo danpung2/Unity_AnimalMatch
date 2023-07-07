@@ -12,18 +12,12 @@ public class Card : MonoBehaviour
 
     private bool _isFlipped;
     private bool _isFlipping;
+
+    public void SetAnimalSprite(Sprite sprite)
+    {
+        this.animalSprite = sprite;
+    }
     
-    void Start()
-    {
-        _isFlipped = false;
-        _isFlipping = false;
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void FlipCard()
     {
         _isFlipping = true;
